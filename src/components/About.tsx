@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { Zap, Target, Users, Award } from 'lucide-react';
+import ParticleField from './three/ParticleField';
 
 const stats = [
   { icon: Zap, value: '150+', label: 'Projects Completed' },
@@ -27,6 +28,9 @@ const About = () => {
       ref={containerRef}
       className="relative py-32 md:py-48 overflow-hidden"
     >
+      {/* 3D Particle Background */}
+      <ParticleField className="opacity-50" />
+      
       {/* Animated Background */}
       <motion.div
         style={{ y: backgroundY }}

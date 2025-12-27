@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { 
   Code, 
   Palette, 
@@ -8,43 +9,51 @@ import {
   Rocket, 
   ShieldCheck,
   ChevronLeft,
-  ChevronRight 
+  ChevronRight,
+  ArrowRight
 } from 'lucide-react';
+import WaveBackground from './three/WaveBackground';
 
 const services = [
   {
     icon: Palette,
     title: 'UI/UX Design',
+    slug: 'ui-ux-design',
     description: 'Creating stunning, intuitive interfaces that captivate users and drive engagement. We blend aesthetics with functionality for optimal user experiences.',
     features: ['User Research', 'Wireframing', 'Prototyping', 'Visual Design'],
   },
   {
     icon: Code,
     title: 'Web Development',
+    slug: 'web-development',
     description: 'Building robust, scalable web applications using cutting-edge technologies. From simple websites to complex platforms, we deliver excellence.',
     features: ['React/Next.js', 'Node.js', 'Database Design', 'API Integration'],
   },
   {
     icon: Smartphone,
     title: 'Mobile Apps',
+    slug: 'mobile-apps',
     description: 'Native and cross-platform mobile applications that deliver seamless experiences across all devices with stunning performance.',
     features: ['iOS Development', 'Android Development', 'React Native', 'Flutter'],
   },
   {
     icon: Globe,
     title: 'Digital Strategy',
+    slug: 'digital-strategy',
     description: 'Comprehensive digital strategies that align with your business goals and drive measurable growth across all channels.',
     features: ['SEO Optimization', 'Content Strategy', 'Analytics', 'Conversion Optimization'],
   },
   {
     icon: Rocket,
     title: 'Brand Identity',
+    slug: 'brand-identity',
     description: 'Crafting memorable brand identities that resonate with your audience and set you apart from the competition.',
     features: ['Logo Design', 'Brand Guidelines', 'Visual Identity', 'Brand Strategy'],
   },
   {
     icon: ShieldCheck,
     title: 'Maintenance & Support',
+    slug: 'maintenance-support',
     description: 'Keeping your digital products running smoothly with ongoing maintenance, updates, and 24/7 technical support.',
     features: ['24/7 Support', 'Security Updates', 'Performance Optimization', 'Bug Fixes'],
   },
@@ -71,60 +80,71 @@ const ServiceCard = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div
-        className="glass-card p-8 h-full cursor-pointer overflow-hidden relative"
-        whileHover={{ y: -10 }}
-        style={{
-          transformStyle: 'preserve-3d',
-          transform: isHovered
-            ? 'perspective(1000px) rotateY(5deg) rotateX(5deg)'
-            : 'perspective(1000px) rotateY(0deg) rotateX(0deg)',
-          transition: 'transform 0.3s ease-out',
-        }}
-      >
-        {/* Glow Effect */}
+      <Link to={`/services/${service.slug}`}>
         <motion.div
-          className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-primary/0 rounded-2xl opacity-0 blur-xl"
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-        />
-
-        <div className="relative z-10">
-          {/* Icon */}
+          className="glass-card p-8 h-full cursor-pointer overflow-hidden relative"
+          whileHover={{ y: -10 }}
+          style={{
+            transformStyle: 'preserve-3d',
+            transform: isHovered
+              ? 'perspective(1000px) rotateY(5deg) rotateX(5deg)'
+              : 'perspective(1000px) rotateY(0deg) rotateX(0deg)',
+            transition: 'transform 0.3s ease-out',
+          }}
+        >
+          {/* Glow Effect */}
           <motion.div
-            className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-6"
-            whileHover={{ scale: 1.1, rotate: 360 }}
-            transition={{ duration: 0.5 }}
-          >
-            <service.icon className="w-8 h-8 text-primary" />
-          </motion.div>
+            className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-primary/0 rounded-2xl opacity-0 blur-xl"
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          />
 
-          {/* Title */}
-          <h3 className="text-2xl font-bold mb-4 text-foreground">
-            {service.title}
-          </h3>
+          <div className="relative z-10">
+            {/* Icon */}
+            <motion.div
+              className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-6"
+              whileHover={{ scale: 1.1, rotate: 360 }}
+              transition={{ duration: 0.5 }}
+            >
+              <service.icon className="w-8 h-8 text-primary" />
+            </motion.div>
 
-          {/* Description */}
-          <p className="text-muted-foreground mb-6 leading-relaxed">
-            {service.description}
-          </p>
+            {/* Title */}
+            <h3 className="text-2xl font-bold mb-4 text-foreground">
+              {service.title}
+            </h3>
 
-          {/* Features */}
-          <div className="flex flex-wrap gap-2">
-            {service.features.map((feature, i) => (
-              <motion.span
-                key={feature}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.1 }}
-                className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-full"
-              >
-                {feature}
-              </motion.span>
-            ))}
+            {/* Description */}
+            <p className="text-muted-foreground mb-6 leading-relaxed">
+              {service.description}
+            </p>
+
+            {/* Features */}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {service.features.map((feature, i) => (
+                <motion.span
+                  key={feature}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-full"
+                >
+                  {feature}
+                </motion.span>
+              ))}
+            </div>
+
+            {/* Learn More Link */}
+            <motion.div
+              className="flex items-center gap-2 text-primary font-medium"
+              animate={{ x: isHovered ? 5 : 0 }}
+            >
+              <span>Learn More</span>
+              <ArrowRight className="w-4 h-4" />
+            </motion.div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </Link>
     </motion.div>
   );
 };
@@ -156,6 +176,9 @@ const Services = () => {
       ref={containerRef}
       className="relative py-32 md:py-48 overflow-hidden bg-secondary/30"
     >
+      {/* 3D Wave Background */}
+      <WaveBackground />
+      
       {/* Background Elements */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
