@@ -23,7 +23,7 @@ const FloatingSphere = ({ position, scale = 1, speed = 1, color = '#E63946' }: F
   return (
     <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
       <mesh ref={meshRef} position={position} scale={scale}>
-        <sphereGeometry args={[1, 32, 32]} />
+        <sphereGeometry args={[1, 24, 24]} /> {/* Reduced segments for performance */}
         <MeshDistortMaterial
           color={color}
           roughness={0.2}
@@ -49,7 +49,7 @@ const FloatingTorus = ({ position, scale = 1, speed = 1, color = '#E63946' }: Fl
   return (
     <Float speed={1.5} rotationIntensity={1} floatIntensity={0.8}>
       <mesh ref={meshRef} position={position} scale={scale}>
-        <torusGeometry args={[1, 0.4, 16, 100]} />
+        <torusGeometry args={[1, 0.4, 12, 64]} /> {/* Reduced segments for performance */}
         <meshStandardMaterial
           color={color}
           roughness={0.3}
@@ -130,8 +130,15 @@ const FloatingShapes = () => {
     <div className="absolute inset-0 -z-10">
       <Canvas
         camera={{ position: [0, 0, 8], fov: 75 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
+        dpr={[1, 1.5]} // Reduced DPR for better performance
+        gl={{ 
+          antialias: true, 
+          alpha: true,
+          powerPreference: 'high-performance',
+          stencil: false,
+          depth: false
+        }}
+        performance={{ min: 0.5 }} // Lower frame rate threshold
       >
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1} />

@@ -6,17 +6,21 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
+import GlobalPresenceBanner from '@/components/GlobalPresenceBanner';
 import Services from '@/components/Services';
 import Portfolio from '@/components/Portfolio';
 import ContactForm from '@/components/ContactForm';
 import Footer from '@/components/Footer';
-import CursorFollower from '@/components/CursorFollower';
 import ScrollProgress from '@/components/ScrollProgress';
+import { useSmoothScroll } from '@/hooks/use-smooth-scroll';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
 const Index = () => {
+  // Initialize Lenis smooth scrolling
+  useSmoothScroll(true);
+
   useEffect(() => {
     // Initialize smooth scroll animations
     const sections = document.querySelectorAll('section');
@@ -52,7 +56,10 @@ const Index = () => {
     });
 
     return () => {
+      // Kill all ScrollTrigger instances and refresh
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      ScrollTrigger.clearMatchMedia();
+      ScrollTrigger.refresh();
     };
   }, []);
 
@@ -63,9 +70,6 @@ const Index = () => {
       transition={{ duration: 0.5 }}
       className="relative min-h-screen bg-background overflow-x-hidden"
     >
-      {/* Custom Cursor */}
-      <CursorFollower />
-
       {/* Scroll Progress Indicator */}
       <ScrollProgress />
 
@@ -76,6 +80,7 @@ const Index = () => {
       <main>
         <Hero />
         <About />
+        <GlobalPresenceBanner />
         <Services />
         <Portfolio />
         <ContactForm />

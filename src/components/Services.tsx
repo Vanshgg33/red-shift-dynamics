@@ -1,13 +1,16 @@
 import { useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { 
-  Code, 
-  Palette, 
-  Smartphone, 
-  Globe, 
-  Rocket, 
-  ShieldCheck,
+import {
+  Megaphone,
+  Target,
+  Tv,
+  Share2,
+  PenTool,
+  Code,
+  Search,
+  Printer,
+  Users,
   ChevronLeft,
   ChevronRight,
   ArrowRight
@@ -16,46 +19,67 @@ import WaveBackground from './three/WaveBackground';
 
 const services = [
   {
-    icon: Palette,
-    title: 'UI/UX Design',
-    slug: 'ui-ux-design',
-    description: 'Creating stunning, intuitive interfaces that captivate users and drive engagement. We blend aesthetics with functionality for optimal user experiences.',
-    features: ['User Research', 'Wireframing', 'Prototyping', 'Visual Design'],
+    icon: Megaphone,
+    title: 'Ad Campaigns',
+    slug: 'ad-campaigns',
+    description: 'Strategic advertising campaigns that capture attention and drive results. We create compelling ads that resonate with your target audience across all platforms.',
+    features: ['Google Ads', 'Facebook Ads', 'Display Advertising', 'Retargeting'],
+  },
+  {
+    icon: Target,
+    title: 'Strategic Planning',
+    slug: 'strategic-planning',
+    description: 'Comprehensive business strategies tailored to your goals. We analyze market trends and competitors to position your brand for maximum growth.',
+    features: ['Market Analysis', 'Competitor Research', 'Growth Strategy', 'ROI Planning'],
+  },
+  {
+    icon: Tv,
+    title: 'TV, Radio & Magazine Ads',
+    slug: 'traditional-media-ads',
+    description: 'Powerful traditional media advertising that reaches mass audiences. We create memorable commercials and print ads that leave lasting impressions.',
+    features: ['TV Commercials', 'Radio Spots', 'Magazine Ads', 'Billboard Design'],
+  },
+  {
+    icon: Share2,
+    title: 'Social Media Management',
+    slug: 'social-media-management',
+    description: 'Complete social media solutions to build your brand presence. We manage, create, and grow your social channels for maximum engagement.',
+    features: ['Content Calendar', 'Community Management', 'Analytics', 'Influencer Marketing'],
+  },
+  {
+    icon: PenTool,
+    title: 'Content Creation',
+    slug: 'content-creation',
+    description: 'Engaging content that tells your brand story. From copywriting to video production, we create content that connects and converts.',
+    features: ['Copywriting', 'Video Production', 'Photography', 'Graphic Design'],
   },
   {
     icon: Code,
     title: 'Web Development',
     slug: 'web-development',
-    description: 'Building robust, scalable web applications using cutting-edge technologies. From simple websites to complex platforms, we deliver excellence.',
-    features: ['React/Next.js', 'Node.js', 'Database Design', 'API Integration'],
+    description: 'Custom websites and web applications built with cutting-edge technology. We deliver fast, responsive, and user-friendly digital experiences.',
+    features: ['Custom Websites', 'E-commerce', 'Web Apps', 'CMS Development'],
   },
   {
-    icon: Smartphone,
-    title: 'Mobile Apps',
-    slug: 'mobile-apps',
-    description: 'Native and cross-platform mobile applications that deliver seamless experiences across all devices with stunning performance.',
-    features: ['iOS Development', 'Android Development', 'React Native', 'Flutter'],
+    icon: Search,
+    title: 'SEO, SEM & PPC',
+    slug: 'seo-sem-ppc',
+    description: 'Data-driven search marketing strategies to increase your visibility. We optimize your presence to rank higher and drive qualified traffic.',
+    features: ['SEO Optimization', 'Google Ads', 'Keyword Research', 'Link Building'],
   },
   {
-    icon: Globe,
-    title: 'Digital Strategy',
-    slug: 'digital-strategy',
-    description: 'Comprehensive digital strategies that align with your business goals and drive measurable growth across all channels.',
-    features: ['SEO Optimization', 'Content Strategy', 'Analytics', 'Conversion Optimization'],
+    icon: Printer,
+    title: 'Printing & Design Solutions',
+    slug: 'printing-design',
+    description: 'Professional printing and design services for all your marketing materials. From business cards to banners, we deliver quality print solutions.',
+    features: ['Business Cards', 'Brochures', 'Banners', 'Packaging Design'],
   },
   {
-    icon: Rocket,
-    title: 'Brand Identity',
-    slug: 'brand-identity',
-    description: 'Crafting memorable brand identities that resonate with your audience and set you apart from the competition.',
-    features: ['Logo Design', 'Brand Guidelines', 'Visual Identity', 'Brand Strategy'],
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Maintenance & Support',
-    slug: 'maintenance-support',
-    description: 'Keeping your digital products running smoothly with ongoing maintenance, updates, and 24/7 technical support.',
-    features: ['24/7 Support', 'Security Updates', 'Performance Optimization', 'Bug Fixes'],
+    icon: Users,
+    title: 'Lead Nurturing',
+    slug: 'lead-nurturing',
+    description: 'Convert prospects into loyal customers with strategic lead nurturing. We build automated workflows that guide leads through your sales funnel.',
+    features: ['Email Marketing', 'CRM Integration', 'Marketing Automation', 'Sales Funnels'],
   },
 ];
 
@@ -82,7 +106,9 @@ const ServiceCard = ({
     >
       <Link to={`/services/${service.slug}`}>
         <motion.div
-          className="glass-card p-8 h-full cursor-pointer overflow-hidden relative"
+          className={`p-8 h-full cursor-pointer overflow-hidden relative rounded-2xl shadow-lg transition-colors duration-300 ${
+            isHovered ? 'bg-primary' : 'bg-white dark:bg-gray-900 border border-border'
+          }`}
           whileHover={{ y: -10 }}
           style={{
             transformStyle: 'preserve-3d',
@@ -102,20 +128,22 @@ const ServiceCard = ({
           <div className="relative z-10">
             {/* Icon */}
             <motion.div
-              className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-6"
+              className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 transition-colors duration-300 ${
+                isHovered ? 'bg-white/20' : 'bg-primary/10'
+              }`}
               whileHover={{ scale: 1.1, rotate: 360 }}
               transition={{ duration: 0.5 }}
             >
-              <service.icon className="w-8 h-8 text-primary" />
+              <service.icon className={`w-8 h-8 transition-colors duration-300 ${isHovered ? 'text-white' : 'text-primary'}`} />
             </motion.div>
 
             {/* Title */}
-            <h3 className="text-2xl font-bold mb-4 text-foreground">
+            <h3 className={`text-2xl font-bold mb-4 transition-colors duration-300 ${isHovered ? 'text-white' : 'text-foreground'}`}>
               {service.title}
             </h3>
 
             {/* Description */}
-            <p className="text-muted-foreground mb-6 leading-relaxed">
+            <p className={`mb-6 leading-relaxed transition-colors duration-300 ${isHovered ? 'text-white/80' : 'text-muted-foreground'}`}>
               {service.description}
             </p>
 
@@ -127,7 +155,9 @@ const ServiceCard = ({
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: i * 0.1 }}
-                  className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-full"
+                  className={`px-3 py-1 text-xs font-medium rounded-full transition-colors duration-300 ${
+                    isHovered ? 'bg-white/20 text-white' : 'bg-secondary text-secondary-foreground'
+                  }`}
                 >
                   {feature}
                 </motion.span>
@@ -136,7 +166,7 @@ const ServiceCard = ({
 
             {/* Learn More Link */}
             <motion.div
-              className="flex items-center gap-2 text-primary font-medium"
+              className={`flex items-center gap-2 font-medium transition-colors duration-300 ${isHovered ? 'text-white' : 'text-primary'}`}
               animate={{ x: isHovered ? 5 : 0 }}
             >
               <span>Learn More</span>
@@ -213,7 +243,7 @@ const Services = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
-            From concept to launch, we provide end-to-end digital solutions tailored to your unique needs
+            We are committed to providing the best services to grow your business — online and offline
           </motion.p>
         </div>
 
