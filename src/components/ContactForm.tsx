@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle, Mail, User, MessageSquare, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { saveSubmission } from '@/lib/submissions';
 
 interface FormData {
   name: string;
@@ -27,22 +28,25 @@ const ContactForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-
-    toast({
-      title: 'Message Sent!',
-      description: "We'll get back to you as soon as possible.",
-    });
-
-    // Reset form after showing success
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: '', email: '', message: '' });
-    }, 3000);
+    try {
+      await saveSubmission(formData);
+      setIsSubmitted(true);
+      toast({
+        title: 'Message Sent!',
+        description: "We'll get back to you as soon as possible.",
+      });
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({ name: '', email: '', message: '' });
+      }, 3000);
+    } catch {
+      toast({
+        title: 'Something went wrong',
+        description: 'Please try again or email us directly.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

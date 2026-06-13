@@ -3,7 +3,11 @@
     "allow": [
       "Bash(npm run build:*)",
       "WebSearch",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(xargs -I {} basename {})",
+      "Bash(node server/index.js)",
+      "Bash(curl *)",
+      "Bash(echo \"exit:$?\")"
     ]
   }
 }
