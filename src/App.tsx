@@ -12,6 +12,7 @@ import ServiceDetail from "./pages/ServiceDetail";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 
 const queryClient = new QueryClient();
 
@@ -19,10 +20,19 @@ const queryClient = new QueryClient();
 const AppRoutes = () => {
   const location = useLocation();
 
-  // Scroll to top on route change
+  // Scroll to top on route change, or to hash anchor if present
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+    if (location.hash) {
+      // Give the page a tick to render before scrolling to the anchor
+      const id = location.hash.slice(1);
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname, location.hash]);
 
   return (
     <Routes>
@@ -59,6 +69,7 @@ const App = () => {
           <BrowserRouter>
             <AppRoutes />
           </BrowserRouter>
+          <WhatsAppFloat />
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>
